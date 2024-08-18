@@ -1,4 +1,4 @@
-This is my personal dwl config with the bar patch and a few other patches applied, see patches directory for a complete list of patches that are applied.  It is comiled against wlroots development version 0.19, that is needed for this to run properly.
+This is my personal dwl config with the bar patch and a few other patches applied, see patches directory for a complete list of patches that are applied.  It is compiled against wlroots development version 0.19, that is needed for this to run properly.
 
 # dwl - dwm for Wayland
 
