@@ -1,9 +1,7 @@
-This is my personal dwl config with the bar patch and a few other patches applied, see patches directory for a complete list of patches that are applied.  It is compiled against wlroots development version 0.19, that is needed for this to run properly.
-
 # dwl - dwm for Wayland
 
 Join us on our IRC channel: [#dwl on Libera Chat]  
-Or on our [Discord server].
+Or on the community-maintained [Discord server].
 
 dwl is a compact, hackable compositor for [Wayland] based on [wlroots]. It is
 intended to fill the same space in the Wayland world that dwm does in X11,
@@ -199,4 +197,3 @@ inspiration, and to the various contributors to the project, including:
 [wiki]: https://codeberg.org/dwl/dwl/wiki/Home#compatible-status-bars
 [Discord server]: https://discord.gg/jJxZnrGPWN
 [Wayland]: https://wayland.freedesktop.org/
-# dwl-with-bar

@@ -3,23 +3,20 @@
                         ((hex >> 16) & 0xFF) / 255.0f, \
                         ((hex >> 8) & 0xFF) / 255.0f, \
                         (hex & 0xFF) / 255.0f }
-#define XF86AudioMute            121
-#define XF86AudioLowerVolume     122
-#define XF86AudioRaiseVolume     123
 /* appearance */
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
-static const unsigned int borderpx         = 2;  /* border pixel of windows */
+static const unsigned int borderpx         = 1;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
-static const char *fonts[]                 = {"MesloLGS Nerd Font Mono:size=16", "NotoColorEmoji:pixelsize=16:antialias=true:autohint=true"};
-static const float rootcolor[]             = COLOR(0x000000ff);
+static const char *fonts[]                 = {"MesloLGS Nerd Font Mono:size=12", "NotoColorEmoji:pixelsize=12:antialias=true:autohint=true"};
+static const float rootcolor[]             = COLOR(0x000055ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xbbbbbbff, 0x224C566A, 0x444444ff },
-	[SchemeSel]  = { 0xeeeeeeff, 0x224C566A, 0xffa500ff },
+	[SchemeNorm] = { 0xbbbbbbff, 0x222288f, 0x444444ff },
+	[SchemeSel]  = { 0xeeeeeeff, 0x224C599A, 0xffa500ff },
 	[SchemeUrg]  = { 0,          0,          0x770000ff },
 };
 
@@ -33,12 +30,12 @@ static int log_level = WLR_ERROR;
 static const char *const autostart[] = {
         "lxpolkit", NULL,
         "dunst", NULL,
-        "copyq", "--start-server", NULL,
-        "swaybg", "-i", "/home/mark/fire.png", NULL,
-        "dbus-update-activation-environment", "--all", NULL,
-        "pipewire", NULL,
-        "nextcloud", NULL,
-        "swayosd-server", NULL,
+        "swaybg", "-i", "/home/mark/wide-screen-wallpapers/woods.png", NULL,
+        "kanshi", NULL, 
+		"export", "XDG_SESSION_TYPE=wayland", NULL,
+		"export", "XDG_SESSION_DESKTOP=dwl", NULL,
+		"export", "XDG_CURRENT_DESKTOP=dwl", NULL,
+		"export", "XDG_CURRENT_SESSION=dwl", NULL,
         NULL /* terminate */
 };
 
@@ -72,7 +69,7 @@ static const MonitorRule monrules[] = {
 	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	*/
 	/* defaults */
-	{ "DP-2",       0.30f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
+	{ "DP-1",       0.33f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 };
 
 /* keyboard */
@@ -143,9 +140,9 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[] = { "kitty", NULL };
-static const char *menucmd[] = {"fuzzel", NULL };
-static const char *browsercmd[] = {"firefox", NULL };
+static const char *termcmd[] = { "ghostty", NULL };
+static const char *menucmd[] = {"rofi", "-show", "drun", NULL };
+static const char *browsercmd[] = {"flatpak", "run", "org.mozilla.firefox", NULL };
 static const char *discordcmd[] = {"flatpak", "run", "com.discordapp.Discord", NULL };
 static const char *gamingcmd[] = {"lutris", NULL };
 static const char *recordingcmd[] = {"flatpak", "run", "com.obsproject.Studio", NULL };
@@ -153,10 +150,6 @@ static const char *thunarcmd[] = {"thunar", NULL };
 static const char *grimcmd[] = {"grim", NULL };
 static const char *gpucmd[] = {"killall", "-SIGUSR1", "gpu-screen-recorder", NULL };
 static const char *btopcmd[] = {"kitty", "-e" "btop", NULL };
-static const char *mutecmd[] = {"swayosd-client", "--output-volume", "mute-toggle", NULL };
-static const char *voldowncmd[] = {"swayosd-client", "--output-volume", "lower", NULL };
-static const char *volupcmd[] = {"swayosd-client", "--output-volume", "raise", NULL };
-static const char *logcmd[] = {"nwg-bar", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
@@ -164,22 +157,17 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,		             XKB_KEY_a,       	 spawn,          {.v = termcmd} },
 	{ MODKEY, 		             XKB_KEY_f,       	 spawn,          {.v = browsercmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_d,     	 spawn,          {.v = discordcmd} },
+	{ MODKEY, 					 XKB_KEY_d,     	 spawn,          {.v = discordcmd} },
 	{ MODKEY, 		             XKB_KEY_l,        	 spawn,          {.v = gamingcmd} },
 	{ MODKEY, 		             XKB_KEY_o,        	 spawn,          {.v = recordingcmd} },
 	{ MODKEY, 		             XKB_KEY_t,        	 spawn,          {.v = thunarcmd} },
 	{ MODKEY,		             XKB_KEY_g,        	 spawn,          {.v = gpucmd} },
 	{ MODKEY,                    XKB_KEY_Print,      spawn,          {.v = grimcmd} },
-	{ MODKEY,					 XKB_KEY_m,		  	 spawn,  		 {.v = mutecmd } },
-	{ MODKEY, 					 XKB_KEY_d,			 spawn, 		 {.v = voldowncmd } },
-	{ MODKEY, 					 XKB_KEY_u,			 spawn,	    	 {.v = volupcmd } },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_L,			 spawn,	    	 {.v = logcmd } },
 	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = +1} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_K,          movestack,      {.i = +1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_J,          movestack,      {.i = -1} },
-	{ MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
 	{ MODKEY,                    XKB_KEY_Return,     zoom,           {0} },
 	{ MODKEY,                    XKB_KEY_Tab,        view,           {0} },
 	{ MODKEY,		    		 XKB_KEY_c,          killclient,     {0} },
